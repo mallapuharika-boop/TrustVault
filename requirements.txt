@@ -1,3 +1,6 @@
+
 Flask
 Werkzeug
 Flask-WTF
+python-dotenv
+gunicorn
