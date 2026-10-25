@@ -2,6 +2,10 @@
 import os
 import sqlite3
 import secrets
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from flask_wtf.csrf import CSRFProtect
 from pathlib import Path
 
@@ -15,10 +19,13 @@ from werkzeug.utils import secure_filename
 
 from database import get_db, init_db
 
+
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
-app.secret_key = os.environ.get("TRUSTVAULT_SECRET", secrets.token_hex(32))
+app.config["SECRET_KEY"] = os.environ["TRUSTVAULT_SECRET"]
+
 csrf = CSRFProtect(app)
+
 @app.errorhandler(413)
 def handle_file_too_large(error):
     return "File too large. Maximum upload size is 10 MB.", 413
